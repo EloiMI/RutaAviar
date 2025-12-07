@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -74,14 +75,14 @@ public class MenuGestion extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAviList = new javax.swing.JButton();
         cmbUser = new javax.swing.JComboBox<>();
         cmbBird = new javax.swing.JComboBox<>();
         cmbProv = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
+        txtSightHistory = new javax.swing.JTextArea();
+        btnAviAdd = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuLogout = new javax.swing.JMenuItem();
@@ -395,15 +396,31 @@ public class MenuGestion extends javax.swing.JFrame {
 
         jLabel10.setText("Provincia:");
 
-        jButton1.setText("Generar historial");
+        btnAviList.setText("Generar historial");
+        btnAviList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAviListActionPerformed(evt);
+            }
+        });
+
+        cmbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUserActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Resultados:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        txtSightHistory.setColumns(20);
+        txtSightHistory.setRows(5);
+        jScrollPane4.setViewportView(txtSightHistory);
 
-        jButton2.setText("Crear registro");
+        btnAviAdd.setText("Crear registro");
+        btnAviAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAviAddActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -433,8 +450,8 @@ public class MenuGestion extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnAviAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAviList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(29, 29, 29))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(33, Short.MAX_VALUE)
@@ -456,18 +473,18 @@ public class MenuGestion extends javax.swing.JFrame {
                         .addComponent(cmbBird, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btnAviAdd)
                         .addGap(9, 9, 9)))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnAviList)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -576,6 +593,20 @@ public class MenuGestion extends javax.swing.JFrame {
         controladorMenus.cargaB();
     }//GEN-LAST:event_tablaBirdListMouseClicked
 
+    private void btnAviAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAviAddActionPerformed
+        // TODO add your handling code here:
+        controladorMenus.crearA();
+    }//GEN-LAST:event_btnAviAddActionPerformed
+
+    private void btnAviListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAviListActionPerformed
+        // TODO add your handling code here:
+        controladorMenus.listA();
+    }//GEN-LAST:event_btnAviListActionPerformed
+
+    private void cmbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbUserActionPerformed
+
     //USUARIOS
     public JCheckBox getCheckAdmin() {
         return checkAdmin;
@@ -674,16 +705,26 @@ public class MenuGestion extends javax.swing.JFrame {
         return cmbUser;
     }
 
-    //AVISTAMIENTOS
     public void setCmbUser(JComboBox<String> cmbUser) {
         this.cmbUser = cmbUser;
     }    
+
+    public JTextArea getTableSightHistory() {
+        return txtSightHistory;
+    }
+
+    public void setTableSightHistory(JTextArea tableSightHistory) {
+        this.txtSightHistory = tableSightHistory;
+    }
+    //AVISTAMIENTOS
     
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuLogout;
+    private javax.swing.JButton btnAviAdd;
+    private javax.swing.JButton btnAviList;
     private javax.swing.JButton btnBirdAdd;
     private javax.swing.JButton btnBirdDel;
     private javax.swing.JButton btnBirdMod;
@@ -696,8 +737,6 @@ public class MenuGestion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbBird;
     private javax.swing.JComboBox<String> cmbProv;
     private javax.swing.JComboBox<String> cmbUser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -725,11 +764,11 @@ public class MenuGestion extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tablaBirdList;
     private javax.swing.JTable tblUserHistory;
     private javax.swing.JTextField txtBirdCommonName;
     private javax.swing.JTextField txtBirdSCName;
+    private javax.swing.JTextArea txtSightHistory;
     private javax.swing.JTextField txtUserNom;
     private javax.swing.JPasswordField txtUserPass;
     private javax.swing.JList<String> userList;

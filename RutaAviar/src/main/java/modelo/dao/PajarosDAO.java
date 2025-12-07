@@ -32,7 +32,7 @@ public class PajarosDAO {
     }
 
     public boolean comprobarPajaro(Session session, String sctf) {
-        String consulta="from Pajaros p where p.raza=:n2";
+        String consulta="from Pajaros p where p.raza= :n2";
         Query q=session.createQuery(consulta); 
         q.setParameter("n2", sctf);
         
@@ -69,6 +69,21 @@ public class PajarosDAO {
 
     public void borBird(Session session, Pajaros p) {
         session.delete(p);
+    }
+
+    public Pajaros consultarPajaro(Session session, String nombre) {
+        String consulta="from Pajaros p where p.nombre= :n2";
+        Query q=session.createQuery(consulta); 
+        q.setParameter("n2", nombre);
+        
+        Iterator it=q.list().iterator();
+        
+        Pajaros p;
+        if(it.hasNext()){
+            p=(Pajaros) it.next();
+            return p;
+        }
+        return null;  
     }
     
 }

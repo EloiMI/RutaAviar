@@ -5,12 +5,16 @@
 package controlador;
 
 import controlador.factory.HibernateUtil;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.dao.AvistamientosDAO;
 import modelo.dao.PajarosDAO;
 import modelo.dao.UsuariosDAO;
+import modelo.vo.Avistamientos;
 import modelo.vo.Pajaros;
 import modelo.vo.Usuarios;
 import org.hibernate.Session;
@@ -302,6 +306,47 @@ public class controladorMenus {
             cargarPajaros();
             IdMod=0;
         }catch(Exception e){
+            HibernateUtil.rollbackTx(session);
+        }
+    }
+
+    public static void crearA() {
+        try{
+            HibernateUtil.beginTx(session);
+            Usuarios b=usuDAO.consultarUsuario(session, ventana.getCmbUser().getModel().getSelectedItem().toString());
+            Pajaros p=pajDAO.consultarPajaro(session, ventana.getCmbBird().getModel().getSelectedItem().toString());
+            if(b!=null && p!=null){
+                String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
+                Avistamientos a=new Avistamientos(p, b, loc, Date.from(Instant.now()));            
+                aviDAO.crearAvistamiento(session, a);
+            VaciarBir();
+                HibernateUtil.commitTx(session);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error en el modelo de combo.");
+                HibernateUtil.rollbackTx(session);
+                return;
+            }
+         }catch(Exception e){
+            HibernateUtil.rollbackTx(session);
+        }
+    }
+
+    public static void listA() {
+        try{
+            HibernateUtil.beginTx(session);
+            Usuarios b=usuDAO.consultarUsuario(session, ventana.getCmbUser().getModel().getSelectedItem().toString());
+            Pajaros p=pajDAO.consultarPajaro(session, ventana.getCmbBird().getModel().getSelectedItem().toString());
+            if(b!=null && p!=null){
+                String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
+                aviDAO.cargarListA(session, ventana.getTableSightHistory(), b, p, loc);
+                
+                HibernateUtil.commitTx(session);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error en el modelo de combo.");
+                HibernateUtil.rollbackTx(session);
+                return;
+            }
+         }catch(Exception e){
             HibernateUtil.rollbackTx(session);
         }
     }

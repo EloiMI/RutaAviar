@@ -62,6 +62,14 @@ public class Avistamientos implements Serializable {
         this.lugar = lugar;
         this.fechaAvistamiento = fechaAvistamiento;
     }
+    
+    public Avistamientos(Pajaros p, Usuarios u, String lugar, Date fechaAvistamiento) {
+        this.pajaroId=p;
+        this.usuarioId=u;
+        this.lugar = lugar;
+        this.fechaAvistamiento = fechaAvistamiento;
+    }
+    
 
     public Integer getId() {
         return id;

@@ -30,7 +30,7 @@ public class AvistamientosDAO {
          }
     }
 
-    public void crearAvistamiento(Session session, Avistamientos a) {
+    public void crearAvistamiento(Session session, Avistamientos a, JTextArea tableSightHistory) {
         session.save(a);
     }
 

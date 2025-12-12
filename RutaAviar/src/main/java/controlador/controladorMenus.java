@@ -21,6 +21,7 @@ import org.hibernate.Session;
 import org.mindrot.jbcrypt.BCrypt;
 import vista.MenuGestion;
 import vista.Principal;
+import modelo.enums.Provinicia;
 
 /**
  *
@@ -60,20 +61,24 @@ public class controladorMenus {
   
     public static void cargarUsuarios(){
         usuDAO.cargarUsuariosList(session, listUsers);
+        usuDAO.cargarUsuariosListCombo(session, cmbUser);
     }
     
     public static void cargarPajaros(){
         pajDAO.cargarBirList(session, tableBirHistory);
+        pajDAO.cargarBirListCombo(session, cmbPajaro);
     }
     
-    public static void cargarCombo(){
+    public static void cargaCombo(){
         usuDAO.cargarUsuariosListCombo(session, cmbUser);
         pajDAO.cargarBirListCombo(session, cmbPajaro);
         cargaProvCombo();
     }
     
-    public static void cargarProvCombo(){
-        
+    public static void cargaProvCombo(){
+        for (Provinicia prov : Provinicia.values()) {
+            cmbProvincia.addElement(prov);
+        }
     }
 
     public static void iniciaSession() {
@@ -336,7 +341,9 @@ public class controladorMenus {
             if(b!=null && p!=null){
                 String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
                 Avistamientos a=new Avistamientos(p, b, loc, Date.from(Instant.now()));            
-                aviDAO.crearAvistamiento(session, a);
+                aviDAO.crearAvistamiento(session, a, ventana.getTableSightHistory());
+                aviDAO.cargarListA(session, ventana.getTableSightHistory(), b, p, loc);
+                JOptionPane.showMessageDialog(null, "Avistamiento registrado.");
             VaciarBir();
                 HibernateUtil.commitTx(session);
             }else{

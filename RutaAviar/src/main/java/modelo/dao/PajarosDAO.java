@@ -5,6 +5,7 @@
 package modelo.dao;
 
 import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import modelo.vo.Pajaros;
 import modelo.vo.Usuarios;
@@ -84,6 +85,18 @@ public class PajarosDAO {
             return p;
         }
         return null;  
+    }
+
+    public void cargarBirListCombo(Session session, DefaultComboBoxModel cmbPajaro) {
+        cmbPajaro.removeAllElements();
+        String consulta="from Pajaros p";
+        Query q=session.createQuery(consulta);
+        Iterator it=q.list().iterator();
+        Pajaros ps;
+        while(it.hasNext()){
+            ps=(Pajaros) it.next();
+            cmbPajaro.addElement(ps.getNombre());
+        }
     }
     
 }

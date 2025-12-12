@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import modelo.vo.Pajaros;
 import modelo.vo.Usuarios;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2025-12-12T13:40:39", comments="EclipseLink-2.7.12.v20230209-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2025-12-12T15:40:14", comments="EclipseLink-2.7.12.v20230209-rNA")
 @StaticMetamodel(Avistamientos.class)
 public class Avistamientos_ { 
 

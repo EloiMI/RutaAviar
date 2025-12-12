@@ -5,6 +5,7 @@
 package modelo.dao;
 
 import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import modelo.vo.Avistamientos;
@@ -98,6 +99,18 @@ public class UsuariosDAO {
              a = (Avistamientos) it.next();
              session.delete(a);
          }
+    }
+
+    public void cargarUsuariosListCombo(Session session, DefaultComboBoxModel cmbUser) {
+        cmbUser.removeAllElements();
+        String consulta="from Usuarios u";
+        Query q=session.createQuery(consulta);
+        Iterator it=q.list().iterator();
+        Usuarios us;
+        while(it.hasNext()){
+            us=(Usuarios) it.next();
+            cmbUser.addElement(us.getNombre());
+        }
     }
     
 }

@@ -6,8 +6,8 @@ package controlador;
 
 import controlador.factory.HibernateUtil;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +38,10 @@ public class controladorMenus {
     static DefaultListModel<String> listUsers = new DefaultListModel<>();
     static DefaultTableModel tableUserHistory=new DefaultTableModel();
     static DefaultTableModel tableBirHistory=new DefaultTableModel();
+    
+    static DefaultComboBoxModel cmbUser=new DefaultComboBoxModel();
+    static DefaultComboBoxModel cmbPajaro=new DefaultComboBoxModel();
+    static DefaultComboBoxModel cmbProvincia=new DefaultComboBoxModel();
  
  public static MenuGestion ventana = new MenuGestion();
   public static void iniciar() {
@@ -46,8 +50,12 @@ public class controladorMenus {
         ventana.getUserList().setModel(listUsers);
         tableUserHistory=(DefaultTableModel)ventana.getTblUserHistory().getModel();
         tableBirHistory=(DefaultTableModel) ventana.getTablaBirdList().getModel();
+        ventana.getCmbUser().setModel(cmbUser);
+        ventana.getCmbBird().setModel(cmbPajaro);
+        ventana.getCmbProv().setModel(cmbProvincia);
         cargarUsuarios();
         cargarPajaros();
+        cargaCombo();
     }
   
     public static void cargarUsuarios(){
@@ -56,6 +64,16 @@ public class controladorMenus {
     
     public static void cargarPajaros(){
         pajDAO.cargarBirList(session, tableBirHistory);
+    }
+    
+    public static void cargarCombo(){
+        usuDAO.cargarUsuariosListCombo(session, cmbUser);
+        pajDAO.cargarBirListCombo(session, cmbPajaro);
+        cargaProvCombo();
+    }
+    
+    public static void cargarProvCombo(){
+        
     }
 
     public static void iniciaSession() {

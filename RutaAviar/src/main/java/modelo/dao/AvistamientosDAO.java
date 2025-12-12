@@ -38,7 +38,7 @@ public class AvistamientosDAO {
         tabla.setText("");
         
         
-        String consulta="from Avistamientos a where a.pajaroId = :p, a.usuarioId = :b, a.lugar = :loc";
+        String consulta="from Avistamientos a where a.pajaroId = :p and  a.usuarioId = :b and  a.lugar = :loc";
         Query q=session.createQuery(consulta); 
         
         q.setParameter("p", p);

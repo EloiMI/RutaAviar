@@ -262,6 +262,7 @@ public class controladorMenus {
             VaciarBir();
             HibernateUtil.commitTx(session);
             JOptionPane.showMessageDialog(null, "Pájaro añadido.");
+            session.refresh(p);
             cargarPajaros();
         }
         }catch(Exception e){
@@ -305,6 +306,7 @@ public class controladorMenus {
             }
             pajDAO.modBird(session, p);
             HibernateUtil.commitTx(session);
+            session.refresh(p);
             JOptionPane.showMessageDialog(null, "Pájaro modificado.");
             cargarPajaros();
             IdMod=0;

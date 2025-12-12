@@ -58,8 +58,8 @@ public class controladorPrincipal {
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
         if(log!=null){            
-                if (true) { 
-                    if(true){
+                if (BCrypt.checkpw(password, log.getPassword())) { 
+                    if(log.getAdmin()){
                         ventana.getTxtUser().setText("");
                         ventana.getTxtPass().setText("");
                         EnterGestor(log);

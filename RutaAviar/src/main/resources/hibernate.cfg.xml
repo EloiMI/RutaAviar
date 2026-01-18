@@ -8,7 +8,7 @@
         <property name="hibernate.connection.password">root</property>
         <!--Debes modificar 2 lineas para la base de datos e ip-->
         <!-- 1.-Debes indicar la ip y la Bd a la que conectas-->
-        <property name="hibernate.connection.url">jdbc:mysql://192.168.1.133:3306/avistamientosdb?zeroDateTimeBehavior=CONVERT_TO_NULL</property>
+        <property name="hibernate.connection.url">jdbc:mysql://172.20.10.12:3306/avistamientosdb?zeroDateTimeBehavior=CONVERT_TO_NULL</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.default_schema">avistamientosdb</property> <!--2.- Pon aqui la BD -->

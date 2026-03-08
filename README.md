@@ -1,1 +1,7 @@
-Ahora mismo, el repositorio tiene una carpeta para la aplicación de escritorio, para la gestión de la base de datos. El contenido de la carpeta funciona con Java. Una vez descargada la carpeta RutaAviar, puede abrise en Netbeans para ejecutarse. Al ejecutar la carpeta, tratará de conectarse a una máquina virtual en el pc para acceder a su base de datos. 
+RutaAviar contiene la aplicación de escritorio creada el Netbeans.
+
+BD tiene un fichero .txt como ejemplo de la estructura de la base de datos que el proyecto está usando ahora mismo.
+
+La carpeta ServidorRA contiene el  servidor REST con el que contacta la aplicación de teléfono.
+
+La carpeta Aplicación tiene el programa de teléfono de Android Studio.

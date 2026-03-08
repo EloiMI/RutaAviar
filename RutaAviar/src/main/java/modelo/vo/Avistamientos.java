@@ -20,10 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author catenaria
- */
+
 @Entity
 @Table(name = "avistamientos")
 @NamedQueries({

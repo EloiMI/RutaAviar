@@ -13,10 +13,7 @@ import modelo.vo.Usuarios;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-/**
- *
- * @author catenaria
- */
+
 public class UsuariosDAO {
 
     public Usuarios consultarUsuario(Session session, String nombre) {

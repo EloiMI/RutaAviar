@@ -12,10 +12,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.mindrot.jbcrypt.BCrypt;
 
-/**
- *
- * @author AD
- */
+
 public class Principal extends javax.swing.JFrame {
 
     /**

@@ -18,10 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author catenaria
- */
+
 @Entity
 @Table(name = "usuarios")
 @NamedQueries({

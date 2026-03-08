@@ -4,10 +4,7 @@
  */
 package modelo.enums;
 
-/**
- *
- * @author catenaria
- */
+
 public enum Provinicia {
     A_CORUÑA,
     ÁLAVA,

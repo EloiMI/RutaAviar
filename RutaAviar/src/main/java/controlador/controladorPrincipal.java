@@ -16,10 +16,7 @@ import org.hibernate.Session;
 import org.mindrot.jbcrypt.BCrypt;
 import vista.Principal;
 
-/**
- *
- * @author acceso a datos
- */
+
 public class controladorPrincipal {
  
  public static Session session; 
@@ -52,6 +49,8 @@ public class controladorPrincipal {
     }
     
     public static void logUsuario(){
+        // CAMBIAR HASH
+        
         Usuarios log=usuDAO.consultarUsuario(session, ventana.getTxtUser().getText());
         
         String password = new String(ventana.getTxtPass().getPassword());
@@ -76,6 +75,7 @@ public class controladorPrincipal {
             JOptionPane.showMessageDialog(null, "No existe el usuario.");
             return;
         }  
+
     }
    
 }

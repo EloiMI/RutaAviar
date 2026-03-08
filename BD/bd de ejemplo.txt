@@ -1,0 +1,148 @@
+
+CREATE DATABASE IF NOT EXISTS AvistamientosDB;
+
+USE AvistamientosDB;
+
+
+
+CREATE TABLE usuarios (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    nombre char(60) NOT NULL,
+
+    password char(60) NOT NULL,
+
+    admin BOOLEAN NOT NULL DEFAULT FALSE
+
+);
+
+
+
+INSERT INTO usuarios (id, nombre, password, admin) VALUES (1, 'Anonimo', '$2a$10$E4Gd3aZsvw0GCqDP09fcl.9GI639NfioeN.3erfYrKqVH61kbC9Ua', FALSE); 
+
+INSERT INTO usuarios (id, nombre, password, admin) VALUES (0, 'Admin', '$10$GWrOKFH07lXtJ3Q3JaXhie5I.X0cnjRxO3DHxZiiPttzeT8RaR7k6', TRUE); /*a*/
+
+INSERT INTO usuarios (id, nombre, password, admin) VALUES (4, 'root', '$2a$10$OnWawLEb7pSIVVao4vrU2ul0150XSmFmgRi7Qzoiy6KGCfAIhYuIq', TRUE); /*root*/
+
+
+
+
+
+
+CREATE TABLE pajaros (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    nombre VARCHAR(50) NOT NULL,
+
+    raza VARCHAR(50) NOT NULL UNIQUE
+
+);
+
+
+
+
+
+CREATE TABLE avistamientos (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    usuario_id INT NOT NULL,
+
+    pajaro_id INT NOT NULL,
+
+    lugar VARCHAR(100) NOT NULL,
+
+    fecha_avistamiento DATETIME NOT NULL,
+
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE RESTRICT,
+
+    FOREIGN KEY (pajaro_id) REFERENCES pajaros(id) ON DELETE CASCADE
+
+);
+
+
+
+
+
+DELIMITER //
+
+CREATE TRIGGER before_delete_usuario
+
+BEFORE DELETE ON usuarios
+
+FOR EACH ROW
+
+BEGIN
+
+    UPDATE avistamientos
+
+    SET usuario_id = 1
+
+    WHERE usuario_id = OLD.id;
+
+END;
+
+//
+
+DELIMITER ;
+
+
+
+
+
+INSERT INTO pajaros (nombre, raza) VALUES 
+
+('Avetoro común', 'Botaurus stellaris'),
+
+('Alcaudón chico', 'Lanius minor'),
+
+('Correlimos falcinelo', 'Limicola falcinellus'),
+
+('Págalo rabero', 'Stercorarius longicaudus'),
+
+('Carricerín cejudo', 'Acrocephalus paludicola'),
+
+('Arao común', 'Uria aalge'),
+
+('Chorlitejo patinegro', 'Charadrius alexandrinus'),
+
+('Escribano palustre', 'Emberiza schoeniclus'),
+
+('Águila perdicera', 'Aquila fasciata'),
+
+('Trepador azul', 'Sitta europaea');
+
+
+INSERT INTO avistamientos (usuario_id, pajaro_id, lugar, fecha_avistamiento) VALUES
+
+(1, 11, 'ALBACETE', '2025-12-01 08:30:00'),
+
+(3, 12, 'ALBACETE', '2025-12-03 10:15:00'),
+
+(3, 13, 'CANTABRIA', '2025-12-05 07:45:00'),
+
+(1, 14, 'CANTABRIA', '2025-12-07 12:00:00'),
+
+(3, 15, 'CÓRDOBA', '2025-12-08 06:50:00'),
+
+(1, 16, 'CÓRDOBA', '2025-12-10 09:20:00'),
+
+(1, 17, 'MÁLAGA', '2025-12-11 08:05:00'),
+
+(3, 18, 'MÁLAGA', '2025-12-11 10:00:00'),
+
+(1, 19, 'PALENCIA', '2025-12-09 07:10:00'),
+
+(1, 20, 'PALENCIA', '2025-12-04 11:30:00'),
+
+(1, 11, 'SANTA_CRUZ_DE_TENERIFE', '2025-12-02 06:45:00'),
+
+(3, 13, 'SANTA_CRUZ_DE_TENERIFE', '2025-12-06 13:25:00'),
+
+(1, 17, 'PONTEVEDRA', '2025-12-01 09:40:00'),
+
+(1, 14, 'PONTEVEDRA', '2025-12-03 15:10:00'),
+
+(3, 12, 'PONTEVEDRA', '2025-12-07 17:00:00');

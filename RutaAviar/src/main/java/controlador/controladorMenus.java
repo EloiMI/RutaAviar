@@ -23,10 +23,7 @@ import vista.MenuGestion;
 import vista.Principal;
 import modelo.enums.Provinicia;
 
-/**
- *
- * @author catenaria
- */
+
 public class controladorMenus {
     
  public static Session session; 

@@ -13,15 +13,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/**
- *
- * @author catenaria
- */
+
 public class MenuGestion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuGestion
-     */
+  
     public MenuGestion() {
         initComponents();
         controladorMenus.iniciaSession();

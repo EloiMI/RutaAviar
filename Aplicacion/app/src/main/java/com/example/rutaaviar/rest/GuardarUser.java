@@ -8,7 +8,7 @@ import java.io.IOException;
 import com.example.rutaaviar.modelo.entidades.Usuario;
 import com.google.gson.Gson;
 
-public class Login {
+public class GuardarUser {
 
     private static final String log = "user_data.json";
 

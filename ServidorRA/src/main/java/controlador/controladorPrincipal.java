@@ -36,38 +36,5 @@ public class controladorPrincipal {
 
     public static void cerrarSession() {
         session.close();       
-    }    
-    /*
-    public static void EnterGestor(Usuarios usu){
-        ventana.setVisible(false);
-        controladorMenus.Enter(usu, ventana);
     }
-    
-    public static void logUsuario(){
-        Usuarios log=usuDAO.consultarUsuario(session, ventana.getTxtUser().getText());
-        
-        String password = new String(ventana.getTxtPass().getPassword());
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-
-        if(log!=null){            
-                if (BCrypt.checkpw(password, log.getPassword())) { 
-                    if(log.getAdmin()){
-                        ventana.getTxtUser().setText("");
-                        ventana.getTxtPass().setText("");
-                        EnterGestor(log);
-                        return;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Solo se puede acceder con una cuenta de administrador.");
-                        return;
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
-                    return;
-                }
-        }else{
-            JOptionPane.showMessageDialog(null, "No existe el usuario.");
-            return;
-        }  
-    }
-   */
 }

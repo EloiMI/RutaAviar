@@ -2,7 +2,6 @@ package com.example.rutaaviar.vista.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,40 +19,25 @@ import com.example.rutaaviar.rest.GuardarUser;
 import com.example.rutaaviar.rest.UsuarioCallback;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class Login extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_sign_up);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Usuario savedUser = GuardarUser.cargarUsuario(getApplicationContext());
+        TextInputLayout userLayout = findViewById(R.id.userReg);
+        TextInputLayout passLayout = findViewById(R.id.passReg);
 
-        if (savedUser != null) {
-            //Toast.makeText(this, "Bienvenido " + savedUser.getNombre(), Toast.LENGTH_LONG).show();
-            //salto a menu principal
-            //startMainActivity();
-            Intent i= new Intent(Login.this, ListadoA.class);
-            startActivity(i);
-            finish();
-            return;
-        }
+        Button bR = findViewById(R.id.buttonUserReg);
 
-
-        TextInputLayout userLayout = findViewById(R.id.user);
-        TextInputLayout passLayout = findViewById(R.id.pass);
-
-        Button bS = findViewById(R.id.button);
-        Button bR = findViewById(R.id.button2);
-
-        bS.setOnClickListener(v -> {
+        bR.setOnClickListener(v -> {
             EditText userEdit = userLayout.getEditText();
             EditText passEdit = passLayout.getEditText();
 
@@ -70,7 +54,9 @@ public class Login extends AppCompatActivity {
                 return;
             }
 
-            new AccesoRest().accederUsuario(username, new UsuarioCallback() {
+            Usuario reg=new Usuario(username, password, false);
+
+            new AccesoRest().crearUsuario(reg, new UsuarioCallback() {
                 @Override
                 public void onSuccess(Usuario u) {
                     GuardarUser.Usuario(getApplicationContext(), u);
@@ -78,7 +64,7 @@ public class Login extends AppCompatActivity {
                     runOnUiThread(() -> {
                         //salto a menu principal
                         //Toast.makeText(getApplicationContext(), "Bienvenido " + u.getNombre(), Toast.LENGTH_LONG).show();
-                        Intent i= new Intent(Login.this, ListadoA.class);
+                        Intent i= new Intent(SignUp.this, ListadoA.class);
                         startActivity(i);
                         finish();
                     });
@@ -90,20 +76,5 @@ public class Login extends AppCompatActivity {
                 }
             });
         });
-
-        bR.setOnClickListener(v -> {
-            runOnUiThread(() -> {
-                //pantalla configuración
-                Intent i= new Intent(Login.this, SignUp.class);
-                startActivity(i);
-              //  finish();
-            });
-        });
-    }
-
-    private void startMainActivity() {
-        Intent intent = new Intent(Login.this, Login.class);
-        startActivity(intent);
-        finish();
     }
 }

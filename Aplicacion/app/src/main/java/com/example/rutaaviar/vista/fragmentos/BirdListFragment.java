@@ -1,14 +1,26 @@
 package com.example.rutaaviar.vista.fragmentos;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import com.example.rutaaviar.rest.AccesoRest;
 
 import com.example.rutaaviar.R;
+import com.example.rutaaviar.modelo.entidades.Pajaro;
+import com.example.rutaaviar.rest.AvesCallback;
+import com.example.rutaaviar.vista.actividades.ListadoA;
+import com.example.rutaaviar.vista.adaptadores.BirdAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +34,9 @@ public class BirdListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private OnPajaroSelectedListener listener;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -34,16 +49,14 @@ public class BirdListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment BirdListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BirdListFragment newInstance(String param1, String param2) {
+    public static BirdListFragment newInstance() {
         BirdListFragment fragment = new BirdListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +73,59 @@ public class BirdListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bird_list, container, false);
+        View vista=inflater.inflate(R.layout.fragment_bird_list, container, false);
+        ListView lista=(ListView) vista.findViewById(R.id.listAFragment);
+
+        new AccesoRest().listadoAves(new AvesCallback() {
+            @Override
+            public void onSuccess(List<Pajaro> pajaros) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BirdAdapter pajarosA = new BirdAdapter(getContext(), (ArrayList<Pajaro>) pajaros);
+                        lista.setAdapter(pajarosA);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        });
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Pajaro pel = (Pajaro) adapterView.getItemAtPosition(i);
+                listener.onPajaroSelected(pel);
+            }
+        });
+
+        return vista;
+    }
+
+
+    public interface OnPajaroSelectedListener{
+        void onPajaroSelected(Pajaro ave);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context){
+        super.onAttach(context);
+        if(context instanceof OnPajaroSelectedListener){
+            listener=(OnPajaroSelectedListener) context;
+        } else {
+            throw new ClassCastException(context.toString()+" debe implementar OnAveSelectedListener");
+        }
+    }
+
+    public void clear(){
+
+
     }
 }

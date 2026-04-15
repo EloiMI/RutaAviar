@@ -6,6 +6,7 @@
     tools:context=".vista.fragmentos.BirdListFragment">
 
     <ListView
+        android:id="@+id/listAFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

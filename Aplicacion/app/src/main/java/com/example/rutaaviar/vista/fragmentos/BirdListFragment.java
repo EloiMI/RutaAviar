@@ -2,130 +2,129 @@ package com.example.rutaaviar.vista.fragmentos;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.example.rutaaviar.rest.AccesoRest;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.rutaaviar.R;
 import com.example.rutaaviar.modelo.entidades.Pajaro;
+import com.example.rutaaviar.rest.AccesoRest;
 import com.example.rutaaviar.rest.AvesCallback;
-import com.example.rutaaviar.vista.actividades.ListadoA;
 import com.example.rutaaviar.vista.adaptadores.BirdAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BirdListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BirdListFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private OnPajaroSelectedListener listener;
+    private OnQuickSightListener quickSightListener;
+    private OnBirdInfoListener birdInfoListener;
+    private ArrayList<Pajaro> listaOriginal = new ArrayList<>();
+    private ArrayList<Pajaro> listaFiltrada = new ArrayList<>();
 
+    private BirdAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public BirdListFragment() {}
 
-    public BirdListFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment BirdListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BirdListFragment newInstance() {
-        BirdListFragment fragment = new BirdListFragment();
-        Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new BirdListFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View vista=inflater.inflate(R.layout.fragment_bird_list, container, false);
-        ListView lista=(ListView) vista.findViewById(R.id.listAFragment);
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        View vista = inflater.inflate(R.layout.fragment_bird_list, container, false);
+        ListView lista = vista.findViewById(R.id.listAFragment);
 
         new AccesoRest().listadoAves(new AvesCallback() {
             @Override
             public void onSuccess(List<Pajaro> pajaros) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        BirdAdapter pajarosA = new BirdAdapter(getContext(), (ArrayList<Pajaro>) pajaros);
-                        lista.setAdapter(pajarosA);
-                    }
+                requireActivity().runOnUiThread(() -> {
+                    listaOriginal = new ArrayList<>(pajaros);
+                    listaFiltrada = new ArrayList<>(listaOriginal);
+
+                    adapter = new BirdAdapter(
+                            getContext(),
+                            listaFiltrada,
+                            pajaro -> {
+                                if (quickSightListener != null) {
+                                    quickSightListener.onQuickSight(pajaro);
+                                }
+                            },
+                            pajaro -> {
+                                if (birdInfoListener != null) {
+                                    birdInfoListener.onBirdInfo(pajaro);
+                                }
+                            }
+                    );
+                    lista.setAdapter(adapter);
                 });
             }
 
             @Override
             public void onError(String error) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
+                requireActivity().runOnUiThread(() -> {});
             }
         });
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Pajaro pel = (Pajaro) adapterView.getItemAtPosition(i);
+        lista.setOnItemClickListener((adapterView, view, i, l) -> {
+            Pajaro pel = (Pajaro) adapterView.getItemAtPosition(i);
+            if (listener != null) {
                 listener.onPajaroSelected(pel);
             }
         });
-
         return vista;
     }
 
+    public void filter(String text) {
+        if (adapter == null) return;
+        listaFiltrada.clear();
+        if (text == null || text.isEmpty()) {
+            listaFiltrada.addAll(listaOriginal);
+        } else {
+            text = text.toLowerCase();
+            for (Pajaro p : listaOriginal) {
+                if (p.getNombre().toLowerCase().contains(text)|| p.getRaza().toLowerCase().contains(text)) {
+                    listaFiltrada.add(p);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 
-    public interface OnPajaroSelectedListener{
+    public interface OnPajaroSelectedListener {
         void onPajaroSelected(Pajaro ave);
     }
 
-    @Override
-    public void onAttach(@NonNull Context context){
-        super.onAttach(context);
-        if(context instanceof OnPajaroSelectedListener){
-            listener=(OnPajaroSelectedListener) context;
-        } else {
-            throw new ClassCastException(context.toString()+" debe implementar OnAveSelectedListener");
-        }
+    public interface OnQuickSightListener {
+        void onQuickSight(Pajaro ave);
     }
 
-    public void clear(){
+    public interface OnBirdInfoListener {
+        void onBirdInfo(Pajaro ave);
+    }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
+        if (context instanceof OnPajaroSelectedListener
+                && context instanceof OnQuickSightListener
+                && context instanceof OnBirdInfoListener) {
+
+            listener = (OnPajaroSelectedListener) context;
+            quickSightListener = (OnQuickSightListener) context;
+            birdInfoListener = (OnBirdInfoListener) context;
+
+        } else {
+            throw new ClassCastException(
+                    context.toString()
+                            + " debe implementar los listeners requeridos"
+            );
+        }
     }
 }

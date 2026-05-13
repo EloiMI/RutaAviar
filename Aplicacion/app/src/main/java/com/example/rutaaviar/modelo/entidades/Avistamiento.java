@@ -16,6 +16,18 @@ public class Avistamiento {
         this.lugar=lug;
     }
 
+    public Avistamiento(int idp, int idu, Date date, Lugar lug){
+        this.usuario_id=idu;
+        this.pajaro_id=idp;
+        this.fecha=date;
+        this.lugar=lug;
+    }
+    public Avistamiento(int idp, int idu, Lugar lug){
+        this.usuario_id=idu;
+        this.pajaro_id=idp;
+        this.lugar=lug;
+    }
+
     public int getId() {
         return id;
     }

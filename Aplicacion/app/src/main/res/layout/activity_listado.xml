@@ -25,7 +25,18 @@
         android:id="@+id/fragAv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/searchBird"
         app:layout_constraintTop_toBottomOf="@id/toolbarAv"/>
+
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchBird"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar ave..."
+        android:iconifiedByDefault="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

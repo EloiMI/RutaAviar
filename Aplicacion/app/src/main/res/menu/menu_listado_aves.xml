@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/OptionUser" android:title="Historial de usuario"/>
     <item android:id="@+id/OptionLogout" android:title="Cerrar Sesión"/>
 </menu>

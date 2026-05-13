@@ -1,8 +1,6 @@
 package com.example.rutaaviar.vista.actividades;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,26 +9,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.rutaaviar.R;
+import com.example.rutaaviar.rest.GuardarUser;
+import com.example.rutaaviar.vista.fragmentos.BirdListFragment;
+import com.example.rutaaviar.vista.fragmentos.UserSightFragment;
 
-public class AveDetalle extends AppCompatActivity {
+public class User extends AppCompatActivity {
 
+    private UserSightFragment listaFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ave_detalle);
+        setContentView(R.layout.activity_user);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Intent intent = getIntent();
-        String n =intent.getExtras().getString("nombre");
-        String r =intent.getExtras().getString("raza");
 
-        TextView t1=findViewById(R.id.PajaroNombre);
-        t1.setText(n);
-        TextView t2=findViewById(R.id.PajaroRaza);
-        t2.setText(r);
+
+       // listaFrag = UserSightFragment.newInstance();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.fragAv, listaFrag).commit();
     }
 }

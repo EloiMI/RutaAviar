@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:descendantFocusability="blocksDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto">>
 
     <TextView
@@ -28,15 +31,27 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-<!--
+
     <ImageButton
         android:id="@+id/quickSight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_compass"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/birdInfo"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         app:layout_constraintTop_toTopOf="parent"/>
--->
+
+    <ImageButton
+
+        android:id="@+id/birdInfo"
+        android:layout_width="45dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_input_get" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

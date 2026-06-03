@@ -51,4 +51,42 @@ public class AvistamientosDAO {
         }
     }
     
+    
+
+    public void cargarListU(Session session, JTextArea tabla, Usuarios b) {
+        tabla.setText("");        
+        
+        String consulta="from Avistamientos a where a.usuarioId = :b";
+        Query q=session.createQuery(consulta); 
+        
+        q.setParameter("b", b);
+        
+        Iterator it=q.list().iterator();
+        Object[] rowData;
+        Avistamientos a;
+        while(it.hasNext()){
+            a=(Avistamientos) it.next();
+            tabla.append("Fecha: "+a.getFechaAvistamiento()+"----Pajaro: "+a.getPajaroId().getNombre()+"\n");
+        }
+    }
+    
+    
+    public void cargarListP(Session session, JTextArea tabla, Pajaros p) {
+        tabla.setText("");        
+        
+        String consulta="SELECT from Avistamientos a where a.pajaroId = :p";
+        //ST_X(a.lugar) AS lon, ST_Y(a.lugar) AS lat
+        Query q=session.createQuery(consulta); 
+        
+        q.setParameter("p", p);
+        
+        Iterator it=q.list().iterator();
+        Object[] rowData;
+        Avistamientos a;
+        while(it.hasNext()){
+            a=(Avistamientos) it.next();
+            tabla.append("Fecha: "+a.getFechaAvistamiento()+"----Usuario: "+a.getUsuarioId().getNombre()+"\n");
+        }
+    }
+    
 }

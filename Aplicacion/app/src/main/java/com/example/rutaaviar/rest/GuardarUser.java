@@ -12,7 +12,7 @@ public class GuardarUser {
 
     private static final String log = "user_data.json";
 
-    // Guardar como JSON
+    // Save user object as JSON
     public static void Usuario(Context context, Usuario u) {
         Gson gson = new Gson();
         String json = gson.toJson(u);
@@ -41,7 +41,16 @@ public class GuardarUser {
         if (u != null) {
             return u.getId();
         } else {
-            return -1;
+            return -1; 
+        }
+    }
+
+    public static String UsuarioNombre(Context ct){
+        Usuario u = cargarUsuario(ct);
+        if (u != null) {
+            return u.getNombre();
+        } else {
+            return "";
         }
     }
 

@@ -1,7 +1,5 @@
 AviarMain.class
 vista/MenuGestion$16.class
-modelo/vo/Usuarios_.class
-modelo/vo/Pajaros_.class
 modelo/vo/Usuarios.class
 modelo/dao/AvistamientosDAO.class
 vista/MenuGestion$11.class
@@ -26,7 +24,6 @@ controlador/factory/HibernateUtil.class
 vista/MenuGestion$1.class
 vista/MenuGestion$14.class
 vista/MenuGestion$7.class
-modelo/vo/Avistamientos_.class
 vista/MenuGestion$12.class
 modelo/vo/Avistamientos.class
 vista/MenuGestion$9.class

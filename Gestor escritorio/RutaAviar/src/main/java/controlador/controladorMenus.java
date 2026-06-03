@@ -50,7 +50,7 @@ public class controladorMenus {
         tableBirHistory=(DefaultTableModel) ventana.getTablaBirdList().getModel();
         ventana.getCmbUser().setModel(cmbUser);
         ventana.getCmbBird().setModel(cmbPajaro);
-        ventana.getCmbProv().setModel(cmbProvincia);
+//        ventana.getCmbProv().setModel(cmbProvincia);
         cargarUsuarios();
         cargarPajaros();
         cargaCombo();
@@ -299,7 +299,7 @@ public class controladorMenus {
 
             if(!ventana.getTxtBirdSCName().getText().isEmpty())
             {
-                p.setNombre(ventana.getTxtBirdSCName().getText());
+                p.setRaza(ventana.getTxtBirdSCName().getText());
             }
             pajDAO.modBird(session, p);
             HibernateUtil.commitTx(session);
@@ -331,7 +331,7 @@ public class controladorMenus {
             HibernateUtil.rollbackTx(session);
         }
     }
-
+/*
     public static void crearA() {
         try{
             HibernateUtil.beginTx(session);
@@ -353,7 +353,7 @@ public class controladorMenus {
          }catch(Exception e){
             HibernateUtil.rollbackTx(session);
         }
-    }
+    }*/
 
     public static void listA() {
         try{
@@ -361,8 +361,47 @@ public class controladorMenus {
             Usuarios b=usuDAO.consultarUsuario(session, ventana.getCmbUser().getModel().getSelectedItem().toString());
             Pajaros p=pajDAO.consultarPajaro(session, ventana.getCmbBird().getModel().getSelectedItem().toString());
             if(b!=null && p!=null){
-                String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
-                aviDAO.cargarListA(session, ventana.getTableSightHistory(), b, p, loc);
+              //  String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
+                //aviDAO.cargarListA(session, ventana.getTableSightHistory(), b, p, loc);
+                
+                HibernateUtil.commitTx(session);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error en el modelo de combo.");
+                HibernateUtil.rollbackTx(session);
+                return;
+            }
+         }catch(Exception e){
+            HibernateUtil.rollbackTx(session);
+        }
+    }
+
+    public static void listarAvistamientosU() {
+        try{
+            HibernateUtil.beginTx(session);
+            Usuarios b=usuDAO.consultarUsuario(session, ventana.getCmbUser().getModel().getSelectedItem().toString());
+            if(b!=null ){
+              //  String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
+                aviDAO.cargarListU(session, ventana.getTableSightHistory(), b);
+                
+                HibernateUtil.commitTx(session);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error en el modelo de combo.");
+                HibernateUtil.rollbackTx(session);
+                return;
+            }
+         }catch(Exception e){
+            HibernateUtil.rollbackTx(session);
+        }
+    }
+
+    public static void listarAvistamientosP() {
+        try{
+            HibernateUtil.beginTx(session);
+            
+            Pajaros p=pajDAO.consultarPajaro(session, ventana.getCmbBird().getModel().getSelectedItem().toString());
+            if(p!=null ){
+               // String loc=ventana.getCmbProv().getModel().getSelectedItem().toString();
+                aviDAO.cargarListP(session, ventana.getTableSightHistory(), p);
                 
                 HibernateUtil.commitTx(session);
             }else{

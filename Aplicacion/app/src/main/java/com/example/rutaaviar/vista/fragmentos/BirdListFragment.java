@@ -43,6 +43,9 @@ public class BirdListFragment extends Fragment {
         new AccesoRest().listadoAves(new AvesCallback() {
             @Override
             public void onSuccess(List<Pajaro> pajaros) {
+                if (!isAdded() || getActivity() == null) {
+                    return;
+                }
                 requireActivity().runOnUiThread(() -> {
                     listaOriginal = new ArrayList<>(pajaros);
                     listaFiltrada = new ArrayList<>(listaOriginal);
@@ -112,10 +115,7 @@ public class BirdListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof OnPajaroSelectedListener
-                && context instanceof OnQuickSightListener
-                && context instanceof OnBirdInfoListener) {
-
+        if (context instanceof OnPajaroSelectedListener && context instanceof OnQuickSightListener && context instanceof OnBirdInfoListener) {
             listener = (OnPajaroSelectedListener) context;
             quickSightListener = (OnQuickSightListener) context;
             birdInfoListener = (OnBirdInfoListener) context;

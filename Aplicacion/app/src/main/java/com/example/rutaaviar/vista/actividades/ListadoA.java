@@ -1,5 +1,6 @@
 package com.example.rutaaviar.vista.actividades;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -26,10 +28,7 @@ import com.example.rutaaviar.rest.UsuarioCallback;
 import com.example.rutaaviar.vista.adaptadores.UserSightAdapter;
 import com.example.rutaaviar.vista.fragmentos.BirdListFragment;
 
-public class ListadoA extends AppCompatActivity
-        implements BirdListFragment.OnPajaroSelectedListener,
-        BirdListFragment.OnQuickSightListener,
-        BirdListFragment.OnBirdInfoListener{
+public class ListadoA extends AppCompatActivity implements BirdListFragment.OnPajaroSelectedListener, BirdListFragment.OnQuickSightListener, BirdListFragment.OnBirdInfoListener{
 
     private BirdListFragment listaFrag;
 
@@ -51,19 +50,19 @@ public class ListadoA extends AppCompatActivity
         setSupportActionBar(toolbar);
         SearchView searchView = findViewById(R.id.searchBird);
         searchView.setOnQueryTextListener(
-                new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
+            new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String busca) {
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String text) {
+                    if (listaFrag != null) {
+                        listaFrag.filter(text);
                     }
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (listaFrag != null) {
-                            listaFrag.filter(newText);
-                        }
-                        return true;
-                    }
-                });
+                    return true;
+                }
+            });
     }
 
     @Override
@@ -97,36 +96,49 @@ public class ListadoA extends AppCompatActivity
     public void onQuickSight(Pajaro ave) {
 
         /// Confirmar avistamiento desplegable
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Crear registro");
+        builder.setMessage("¿Quiere marcar un avistamiento de "+ave.getNombre()+"?");
+        builder.setPositiveButton("Confirmar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int iduser=GuardarUser.UsuarioId(getApplicationContext());
 
+                        new AccesoRest().crearAvistamiento(ListadoA.this, iduser, ave.getId(), new AvistamientoCreadoCallback() {
+                            @Override
+                            public void onSuccess(String success) {
+                                runOnUiThread(() -> {
+                                    Toast.makeText(getApplicationContext(), "Avistamiento registrado", Toast.LENGTH_SHORT).show();
+                                });
+                            }
 
-
-      //  AccesoRest.avistamiento(pajaro);
-
-        int iduser=GuardarUser.UsuarioId(getApplicationContext());
-
-
-        new AccesoRest().crearAvistamiento(iduser, ave.getId(), new AvistamientoCreadoCallback() {
-            @Override
-            public void onSuccess(String success) {
-                runOnUiThread(() -> {
-                    Toast.makeText(getApplicationContext(), "Avistamiento registrado", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onError(String error) {
+                                runOnUiThread(() -> {
+                                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        });
+                    }
                 });
-            }
-
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
-            public void onError(String error) {
-                runOnUiThread(() -> {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                });
+            public void onClick(DialogInterface dialog, int which) {
             }
         });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
 
     @Override
     public void onBirdInfo(Pajaro ave) {
         Intent i = new Intent(ListadoA.this, AveDetalle.class);
-        i.putExtra("nombre", ave.getId());
+        i.putExtra("id", ave.getId());
         i.putExtra("nombre", ave.getNombre());
         i.putExtra("raza", ave.getRaza());
         startActivity(i);

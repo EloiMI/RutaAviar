@@ -6,6 +6,7 @@ package controlador;
 
 import controlador.factory.HibernateUtil;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import modelo.dao.AvistamientosDAO;
@@ -49,33 +50,50 @@ public class controladorPrincipal {
     }
     
     public static void logUsuario(){
-        // CAMBIAR HASH
         
-        Usuarios log=usuDAO.consultarUsuario(session, ventana.getTxtUser().getText());
-        
-        String password = new String(ventana.getTxtPass().getPassword());
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+        Usuarios log = usuDAO.consultarUsuario(session, ventana.getTxtUser().getText());
 
-        if(log!=null){            
-                if (BCrypt.checkpw(password, log.getPassword())) { 
-                    if(log.getAdmin()){
-                        ventana.getTxtUser().setText("");
-                        ventana.getTxtPass().setText("");
-                        EnterGestor(log);
-                        return;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Solo se puede acceder con una cuenta de administrador.");
-                        return;
-                    }
+        String password = new String(ventana.getTxtPass().getPassword());
+        String hashed = sha256(password);
+        if (log != null) {
+
+            if (hashed.equals(log.getPassword())) {
+
+                if (log.getAdmin()) {
+                    ventana.getTxtUser().setText("");
+                    ventana.getTxtPass().setText("");
+                    EnterGestor(log);
+                    return;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+                    JOptionPane.showMessageDialog(null, "Solo se puede acceder con una cuenta de administrador.");
                     return;
                 }
-        }else{
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+                return;
+            }
+
+        } else {
             JOptionPane.showMessageDialog(null, "No existe el usuario.");
             return;
-        }  
-
+        }
     }
-   
+    
+    public static String sha256(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(input.getBytes());
+
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }   
 }

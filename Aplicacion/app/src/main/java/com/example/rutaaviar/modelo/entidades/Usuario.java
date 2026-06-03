@@ -21,6 +21,11 @@ public class Usuario {
         this.admin = admin;
     }
 
+    public Usuario(String nombre, String password) {
+        this.nombre = nombre;
+        this.password = password;
+    }
+
     public String getNombre() {
         return nombre;
     }

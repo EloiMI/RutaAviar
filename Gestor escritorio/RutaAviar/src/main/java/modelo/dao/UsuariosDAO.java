@@ -72,7 +72,9 @@ public class UsuariosDAO {
 
     public void cargaUserHist(Session session, Usuarios u, DefaultTableModel table) {
         table.setRowCount(0);
-        String consulta="select p.nombre, a.lugar, a.fechaAvistamiento from Avistamientos a inner join a.pajaroId p where a.usuarioId = :user";
+        //version con coordenadas
+        //String consulta="select p.nombre, a.lugar, a.fechaAvistamiento from Avistamientos a inner join a.pajaroId p where a.usuarioId = :user";
+        String consulta="select p.nombre, a.fechaAvistamiento from Avistamientos a inner join a.pajaroId p where a.usuarioId = :user";
         Query q=session.createQuery(consulta);
         q.setParameter("user", u);
        

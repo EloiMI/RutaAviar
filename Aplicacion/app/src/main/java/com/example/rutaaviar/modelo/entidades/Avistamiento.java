@@ -4,28 +4,33 @@ import java.util.Date;
 
 public class Avistamiento {
     private int id;
-    private int pajaro_id;
-    private int usuario_id;
+    private int usuarioId;
+    private int pajaroId;
     private Date fecha;
-    private Lugar lugar;
-    public Avistamiento(int id, int idp, int idu, Date date, Lugar lug){
+
+    private double lat;
+    private double lon;
+    public Avistamiento(int id, int idp, int idu, Date date, double lat, double lon){
         this.id=id;
-        this.usuario_id=idu;
-        this.pajaro_id=idp;
+        this.pajaroId =idu;
+        this.usuarioId =idp;
         this.fecha=date;
-        this.lugar=lug;
+        this.lat =lat;
+        this.lon =lon;
     }
 
-    public Avistamiento(int idp, int idu, Date date, Lugar lug){
-        this.usuario_id=idu;
-        this.pajaro_id=idp;
+    public Avistamiento(int idp, int idu, Date date, double lat, double lon){
+        this.pajaroId =idu;
+        this.usuarioId =idp;
         this.fecha=date;
-        this.lugar=lug;
+        this.lat =lat;
+        this.lon =lon;
     }
-    public Avistamiento(int idp, int idu, Lugar lug){
-        this.usuario_id=idu;
-        this.pajaro_id=idp;
-        this.lugar=lug;
+    public Avistamiento(int idp, int idu, double lon, double lat){
+        this.pajaroId =idu;
+        this.usuarioId =idp;
+        this.lon =lon;
+        this.lat =lat;
     }
 
     public int getId() {
@@ -36,20 +41,20 @@ public class Avistamiento {
         this.id = id;
     }
 
-    public int getPajaro_id() {
-        return pajaro_id;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setPajaro_id(int pajaro_id) {
-        this.pajaro_id = pajaro_id;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public int getUsuario_id() {
-        return usuario_id;
+    public int getPajaroId() {
+        return pajaroId;
     }
 
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setPajaroId(int pajaroId) {
+        this.pajaroId = pajaroId;
     }
 
     public Date getFecha() {
@@ -60,11 +65,11 @@ public class Avistamiento {
         this.fecha = fecha;
     }
 
-    public Lugar getLugar() {
-        return lugar;
-    }
+    public double getLat() {return lat;}
 
-    public void setLugar(Lugar lugar) {
-        this.lugar = lugar;
-    }
+    public void setLat(double lat) {this.lat = lat;}
+
+    public double getLon() {return lon;}
+
+    public void setLon(double lon) {this.lon = lon;}
 }

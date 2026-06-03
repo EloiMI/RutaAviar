@@ -24,6 +24,10 @@ import com.example.rutaaviar.rest.UsuarioCallback;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.core.app.ActivityCompat;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Login extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST = 100;
     @Override
@@ -55,7 +59,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-
         TextInputLayout userLayout = findViewById(R.id.user);
         TextInputLayout passLayout = findViewById(R.id.pass);
 
@@ -79,15 +82,21 @@ public class Login extends AppCompatActivity {
                 return;
             }
 
-            new AccesoRest().accederUsuario(username, new UsuarioCallback() {
+            Usuario log=new Usuario(username, password);
+
+            new AccesoRest().accederUsuario(log, new UsuarioCallback() {
                 @Override
                 public void onSuccess(Usuario u) {
-                    GuardarUser.Usuario(getApplicationContext(), u);
-
                     runOnUiThread(() -> {
-                        //salto a menu principal
-                        //Toast.makeText(getApplicationContext(), "Bienvenido " + u.getNombre(), Toast.LENGTH_LONG).show();
-                        Intent i= new Intent(Login.this, ListadoA.class);
+
+                        if (u == null) {
+                          //  Toast.makeText(Login.this,"Error de login",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        GuardarUser.Usuario(getApplicationContext(), u);
+
+                        Intent i = new Intent(Login.this, ListadoA.class);
                         startActivity(i);
                         finish();
                     });
@@ -95,7 +104,7 @@ public class Login extends AppCompatActivity {
 
                 @Override
                 public void onError(String error) {
-                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_LONG).show());
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_LONG).show());
                 }
             });
         });

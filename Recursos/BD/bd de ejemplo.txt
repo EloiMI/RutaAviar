@@ -78,7 +78,7 @@ INSERT INTO pajaros (nombre, raza) VALUES
 
 INSERT INTO avistamientos (usuario_id, pajaro_id, lugar, fecha_avistamiento) VALUES
 (1,2,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
-(2,3,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
-(4,1,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
+(0,3,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
+(0,1,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
 (1,1,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00'),
-(2,3,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00');
+(0,3,ST_GeomFromText('POINT(-8.4115 43.3623)'),'2026-05-20 10:15:00');
